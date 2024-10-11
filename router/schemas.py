@@ -13,5 +13,6 @@ class PostDisplay(BaseModel):
     title: str
     content: str
     creator: str
+    timestamp: datetime
     class config():
         orm_mode = True
