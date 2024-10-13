@@ -1,6 +1,6 @@
 import shutil
 from fastapi import APIRouter, Depends, File, UploadFile
-from router.schemas import PostBase, PostDisplay
+from database.schemas import PostBase, PostDisplay
 from sqlalchemy.orm import Session
 from database.database import get_db
 from database import db_post
