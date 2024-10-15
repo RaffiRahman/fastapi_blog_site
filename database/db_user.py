@@ -1,14 +1,23 @@
-from sqlalchemy.orm import Session
-from database import schemas, model
+from fastapi import HTTPException, status
+from sqlalchemy.orm.session import Session
+from database import model
+from schemas import UserBase
+from database.hash import Hash
 
-def get_user_by_email(db: Session, email: str):
-    return db.query(model.User).filter(model.User.email == email).first()
+def get_user_by_username(db: Session, username: str):
+    user = db.query(model.DbUser).filter(model.DbUser.username == username).first()
+    if not user:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
+                            detail=f"User with username {username} not found!")
+    return user
 
-def create_user(db: Session, user: schemas.UserCreate):
-    db_user = model.User(username=user.username, 
-                         email=user.email, 
-                         hashed_password=user.password)
-    db.add(db_user)
+def create_user(db: Session, request: UserBase):
+    new_user = model.DbUser(
+        username=request.username, 
+        email=request.email, 
+        hashed_password=Hash.bcrypt(request.password)
+    )
+    db.add(new_user)
     db.commit()
-    db.refresh(db_user)
-    return db_user
+    db.refresh(new_user)
+    return new_user

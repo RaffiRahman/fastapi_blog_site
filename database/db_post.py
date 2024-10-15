@@ -1,5 +1,5 @@
 from fastapi import HTTPException, status
-from database.schemas import PostBase
+from schemas import PostBase
 from sqlalchemy.orm.session import Session
 import datetime
 from database.model import DbPost
