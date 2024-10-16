@@ -4,13 +4,11 @@ from sqlalchemy.orm.session import Session
 import datetime
 from database.model import DbPost
 
-def create(db: Session, request: PostBase):
+def create(db: Session, request: PostBase, user_id: int):
     new_post = DbPost(
-        image_url = request.image_url,
         title = request.title,
         content = request.content,
-        creator = request.creator,
-        timestamp = datetime.datetime.now()
+        author_id=user_id
     )
     db.add(new_post)
     db.commit()
