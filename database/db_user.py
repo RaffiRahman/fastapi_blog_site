@@ -5,11 +5,11 @@ from database.database import get_db
 from schemas import UserBase
 from database.hash import Hash
 
-def get_user_by_email(email: str, db: Session = Depends(get_db)):
-    user = db.query(model.DbUser).filter(model.DbUser.email == email).first()
+def get_user_by_username(username: str, db: Session = Depends(get_db)):
+    user = db.query(model.DbUser).filter(model.DbUser.username == username).first()
     if not user:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
-                            detail=f"User with email {email} not found!")
+                            detail=f"User with username {username} not found!")
     return user
 
 def create_user(db: Session, request: UserBase):

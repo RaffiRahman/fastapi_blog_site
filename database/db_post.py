@@ -4,6 +4,8 @@ from sqlalchemy.orm.session import Session
 import datetime
 from database.model import DbPost
 
+
+
 def create(db: Session, request: PostBase, user_id: int):
     new_post = DbPost(
         title = request.title,
